@@ -52,7 +52,7 @@
         //Create entry of otp in DB 
 
         const otpBody = await OTP.create({email , otp});
-        console.log(otpBody);
+        console.log("otp body :" , otpBody);
 
         res.status(200).json({
             success:true,
@@ -123,7 +123,7 @@
                 message:"OTP not found"
             })
         }
-        else if(otp !== recentOtp.otp){
+        else if(otp !== recentOtp[0].otp){
             return res.status(401).json({
                 success:false,
                 message:"Invalid OTP"
@@ -135,6 +135,9 @@
         const hashedPassword = await bcrypt.hash(password, 10);
 
         //STEP 5: Create entry in DB
+
+        let approved = "";
+        approved === "Instructor" ? (approved = false) : (approved = true);
 
         const profile = await Profile.create({
             gender:null,
@@ -150,6 +153,7 @@
             contactNumber,
             password:hashedPassword,
             accountType,
+            approved: approved,
             additionalDetails:profile._id,  // to add additional detail we must have addtionaldetail by creating profile in DB
             image:`https://api.dicebear.com/5.x/initials/svg?seed= ${firstName} ${lastName}`
         })
@@ -197,7 +201,7 @@
          if(!user){
             return res.status(401).json({
                 success:false,
-                message:"User already exist! Please signup"
+                message:"User not found! Please signup"
             })
          }
 

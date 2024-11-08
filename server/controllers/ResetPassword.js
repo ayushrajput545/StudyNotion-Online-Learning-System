@@ -1,7 +1,7 @@
 
 const User = require('../models/User');
 const mailSender = require('../util/mailSender');
-const crypto = require('crypto-js');
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 
 //we create token for reseting password
@@ -21,10 +21,10 @@ exports.resetPasswordToken = async(req,res)=>{
     }
 
     //generate token --> we intsall npm crypto it generate a unique id 
-    const token = crypto.randomUUID();
+    const token = crypto.randomBytes(20).toString("hex"); 
 
     //Add this generated token or uid and its expiry time to the User schema(make new elements in User)
-    const updatedDetails = await User.findByIdAndUpdate({email} , {token:token , resetPasswordExpires:Date.now()*5*60*1000 }  , {new:true}); // updated document returns
+    const updatedDetails = await User.findOneAndUpdate({email} , {token:token , resetPasswordExpires:Date.now() + 5 * 60 * 1000 }  , {new:true}); // updated document returns
 
     //create url that will send to the mail
     const url =`http://localhost:3000/update-password/${token}`
@@ -49,7 +49,7 @@ exports.resetPasswordToken = async(req,res)=>{
 }
 
 //on click the link on email then reset your password 
-exports.resetPassword= async(res,req)=>{
+exports.resetPassword= async(req,res)=>{
 
     try{
 
@@ -89,7 +89,7 @@ exports.resetPassword= async(res,req)=>{
 
         return res.status(200).json({
             success:true,
-            message:'Passowrd changed'
+            message:'Passowrd changed' 
         })
 
     }

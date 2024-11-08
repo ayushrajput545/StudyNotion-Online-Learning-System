@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
         ref:"Profile"  //this gonna be a new model , here its refrence is present
     },
 
-    courses:[    // this contain many course so it must be a array
+    courses:[    // this contain many course so it must be a array , only instructor can create courses
         {
              type:mongoose.Schema.Types.ObjectId,
              ref:"Course"  //course ki ids aaygi
@@ -64,9 +64,10 @@ const userSchema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:"courseProgress"
         }
-    ]
+    ],
 
-})
+},{ timestamps: true })
+
 module.exports = mongoose.model("User" , userSchema);
 
 

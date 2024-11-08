@@ -13,7 +13,7 @@ const courseSchema = new mongoose.Schema({
     },
 
     instructor:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true
     },
@@ -22,7 +22,7 @@ const courseSchema = new mongoose.Schema({
         type:String
     },
 
-    courseContent:[
+    courseContent:[  // section contain many diffrent parts or info of particular course
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"Section"
@@ -46,8 +46,18 @@ const courseSchema = new mongoose.Schema({
     },
 
     tag:{
+        
+        type:[String],
+        required:true,
+    },
+
+    instructions: {
+		type:[String],
+	},
+
+    category:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Tag"
+        ref:"category"
     },
 
     studentEnrolled:[
@@ -56,7 +66,17 @@ const courseSchema = new mongoose.Schema({
             required:true,
             ref:"User"
         }
-    ]
+    ],
+
+    status:{
+        type:String,
+        enum:["Draft" , "Published"]
+    },
+
+    createdAt: {
+		type:Date,
+		default:Date.now
+	},
 
 });
 module.exports=mongoose.model('Course' , courseSchema);
