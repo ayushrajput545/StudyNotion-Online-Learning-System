@@ -1,12 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { login } from '../../../services/operations/authAPI'
 
 const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState(false)
   const[formData , setFormData] = useState({email:"" , password:""})
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   function handleOnChange(e){
     setFormData((prevData)=>({
@@ -15,9 +19,10 @@ const LoginForm = () => {
     }))
   }
 
+  const {email , password} =formData
   function handleOnSubmit(e){
     e.preventDefault()
-    console.log(formData)
+    dispatch(login(email,password,navigate))
   }
 
   return (

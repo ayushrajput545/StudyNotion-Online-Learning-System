@@ -5,6 +5,9 @@ import Home from './pages/Home';
 import Navbar from './components/common/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import OpenRoute from './components/core/auth/OpenRoute';
+import ForgotPassword from './pages/ForgotPassword';
+import UpdatePassword from './pages/UpdatePassword';
 
 function App() {
   return (
@@ -13,8 +16,11 @@ function App() {
         
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/signup' element={<Signup/>}/>
+          <Route path='/login' element={<OpenRoute><Login/></OpenRoute> }/>
+          <Route path='/signup' element={<OpenRoute><Signup/></OpenRoute>}/>
+          <Route path='/forgot-password' element={<OpenRoute><ForgotPassword/></OpenRoute>}/>
+          <Route path='/update-password' element={<OpenRoute><UpdatePassword/> </OpenRoute>}/>
+          
         </Routes>
       
     </div>

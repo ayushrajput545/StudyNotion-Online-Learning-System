@@ -1,11 +1,18 @@
 import toast from "react-hot-toast";
 import { apiconnector } from "../apiconnector";
 import { endpoints } from "../apis";
-import { setLoading } from "../../slices/authSlice";
+import { setLoading,setToken } from "../../slices/authSlice";
+
+
+    const {
+
+        SENDOTP_API ,
+        LOGIN_API,
+        RESETPASSTOKEN_API,
+        
+    } =endpoints 
 
 export function sendOtp(email,navigate){
-
-    const {SENDOTP_API} =endpoints 
 
     return async(dispatch) =>{
         const toastId = toast.loading("Loading...")
@@ -27,4 +34,56 @@ export function sendOtp(email,navigate){
         // dispatch(setLoading(false))
         toast.dismiss(toastId)
     }
+}
+
+
+//login api
+export function login(email,password,navigate){
+
+    return async(dispatch)=>{
+        const toastId = toast.loading("Loading...")
+        dispatch(setLoading(true))
+        try{
+            const response =await apiconnector("POST" , LOGIN_API , {email,password})
+            console.log("LOGIN API RESPONSE..........", response)
+            
+            if(!response.data.success){
+                throw new Error(response.data.message)
+            }
+
+            toast.success("Login Successfull")
+            dispatch(setToken(response.data.token))
+        }
+        catch(err){
+
+        }
+    }
+}
+
+
+// getPasswordResetToken api
+export function getPasswordResetToken(email,setEmailsent){
+
+    return async(dispatch)=>{
+        dispatch(setLoading(true))
+        try{
+            const response = await apiconnector("POST" , RESETPASSTOKEN_API ,{email})
+            console.log("RESET PASSWORD TOKEN RESPONSE......", response)
+
+            if(!response.data.success){
+                throw new Error(response.data.message)
+            }
+
+            toast.success("Reset Email Sent")
+            setEmailsent(true)
+
+        }
+        catch(err){
+            console.log("RESET PASSWORD TOKEN Error", err);
+            toast.error("Failed to send email for resetting password");
+        }
+        dispatch(setLoading(false))
+        
+    }
+
 }
