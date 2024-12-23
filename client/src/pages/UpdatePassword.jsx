@@ -1,9 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { BiArrowBack } from "react-icons/bi"
 import { useState } from 'react'
+import {resetPassword} from '../services/operations/authAPI'
 
 const UpdatePassword = () => {
     const{loading} = useSelector((state)=>state.auth) 
@@ -13,6 +14,9 @@ const UpdatePassword = () => {
         password: "",
         confirmPassword: "",
       })
+    const dispatch = useDispatch()
+    const location = useLocation()
+    const navigate = useNavigate()
 
     function handleOnChange(e){
         setFormData((prevData)=>({
@@ -20,11 +24,13 @@ const UpdatePassword = () => {
             [e.target.name]: e.target.value
         }))
     }
-
+ 
+    const {password ,confirmPassword} = formData
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        // const token = location.pathname.split("/").at(-1)
-        // dispatch(resetPassword(password, confirmPassword, token, navigate))
+        const token = location.pathname.split("/").at(-1)
+        dispatch(resetPassword(password, confirmPassword, token))
+        navigate('/login')
       }
 
   return (

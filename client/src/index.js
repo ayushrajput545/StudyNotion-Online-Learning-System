@@ -7,9 +7,10 @@ import {Provider} from 'react-redux'
 import rootReducer from './reducers';
 import { configureStore } from '@reduxjs/toolkit';
 import {Toaster} from 'react-hot-toast'
-
+ 
 const store = configureStore({
-  reducer:rootReducer
+  reducer:rootReducer,
+ 
 })
 
  
