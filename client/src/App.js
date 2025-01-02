@@ -11,6 +11,9 @@ import UpdatePassword from './pages/UpdatePassword';
 import VerifyEmail from './pages/VerifyEmail';
 import About from './pages/About';
 import MyProfile from './components/core/Dashboard/MyProfile';
+import Contact from './pages/Contact';
+import PrivateRoute from './components/core/auth/PrivateRoute';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -26,8 +29,16 @@ function App() {
           <Route path='/update-password/:id' element={<OpenRoute><UpdatePassword/> </OpenRoute>}/>
           <Route path='/verify-email' element={<OpenRoute><VerifyEmail/></OpenRoute> }/>
           <Route path='/about' element={<About/>}/>
+          <Route path='/contact' element={<Contact/>}/>
 
-          <Route path ='/dashboard/my-profile' element={<MyProfile/>}/>
+          <Route element={<PrivateRoute><Dashboard/></PrivateRoute>}>
+            <Route path ='/dashboard/my-profile' element={<MyProfile/>}/>
+            
+             
+
+          </Route>
+
+          
           
         </Routes>
       
