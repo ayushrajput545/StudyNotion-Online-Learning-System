@@ -27,7 +27,7 @@ exports.resetPasswordToken = async(req,res)=>{
     const updatedDetails = await User.findOneAndUpdate({email} , {token:token , resetPasswordExpires:Date.now() + 5 * 60 * 1000 }  , {new:true}); // updated document returns
 
     //create url that will send to the mail
-    const url =`http://localhost:3000/update-password/${token}`
+    const url =`http://localhost:3001/update-password/${token}`
 
     //send mail containing this url (frontend url)
     await mailSender(email , "Forgot Password Link" ,  `Forgot password link : ${url}`);
@@ -54,7 +54,7 @@ exports.resetPassword= async(req,res)=>{
     try{
 
         //data fetthc
-        const{password,confirmPassword , token}= req.body; // token ko req body meh frontend ne dala 
+        const{password,confirmPassword , token}= req.body; // token ko req body meh frontend ne dala from uselocation hook
 
         //validations
         if(password!==confirmPassword){

@@ -120,7 +120,7 @@
 
             return res.status(401).json({
                 success:false,
-                message:"OTP not found"
+                message:"Invalid OTP"
             })
         }
         else if(otp !== recentOtp[0].otp){
