@@ -1,4 +1,3 @@
- 
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
@@ -14,6 +13,7 @@ import MyProfile from './components/core/Dashboard/MyProfile';
 import Contact from './pages/Contact';
 import PrivateRoute from './components/core/auth/PrivateRoute';
 import Dashboard from './pages/Dashboard';
+import Settings from './components/core/Dashboard/Settings/Settings';
 
 function App() {
   return (
@@ -33,6 +33,7 @@ function App() {
 
           <Route element={<PrivateRoute><Dashboard/></PrivateRoute>}>
             <Route path ='/dashboard/my-profile' element={<MyProfile/>}/>
+            <Route path='/dashboard/settings' element={<Settings/>}/>
             
              
 
