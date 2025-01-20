@@ -3,6 +3,7 @@ const User = require('../models/User');
 const Category = require('../models/Category');
 const {uploadImageToCloudinary} = require('../util/imageUploader');
 require('dotenv').config();
+const { convertSecondsToDuration } =  require('../util/secToDuration')
 
 //create courses by instructor
 exports.createCourse = async(req, res)=>{
@@ -104,7 +105,7 @@ exports.createCourse = async(req, res)=>{
 
 //get All courses
 
-exports.showAllCourses = async(req,res)=>{
+exports.getAllCourses = async(req,res)=>{
 
     try{
 
@@ -129,39 +130,64 @@ exports.showAllCourses = async(req,res)=>{
 
 //getcourseDetails
 
-exports.getCourseDetails = async(req,res)=>{
-
-    try{
-        const {courseId}= req.body;
-        const courseDetails = await Course.find({_id:courseId})
-                                               .populate({path:"instructor" , populate:{path:"additionalDetails"}})
-                                            //    .populate("category")
-                                            //    .populate("ratingAndReviews")
-                                               .populate({path:"courseContent",populate:{path:"subSection" , select: "-videoUrl",}})
-                                               .exec();
-
-        if(!courseDetails){
-            return res.status(403).json({
-                success:false,
-                message:`Could not find course Details with ${courseId}`
-            })
-        }
-
-        return res.status(200).json({
-            sucess:true,
-            message:"Course Details fetched Successfully",
-            data:courseDetails
+exports.getCourseDetails = async (req, res) => {
+    try {
+      const { courseId } = req.body
+      const courseDetails = await Course.findOne({
+        _id: courseId,
+      })
+        .populate({
+          path: "instructor",
+          populate: {
+            path: "additionalDetails",
+          },
         })
-
-    }
-    catch(err){
-        console.log(err);
-        return res.status(500).json({
-            sucess:false,
-            message:"Something went wrong while fetching course details",
-            error:err.message 
+        // .populate("category")
+        // .populate("ratingAndReviews")
+        .populate({
+          path: "courseContent",
+          populate: {
+            path: "subSection",
+            select: "-videoUrl",
+          },
         })
-
-
+        .exec()
+  
+      if (!courseDetails) {
+        return res.status(400).json({
+          success: false,
+          message: `Could not find course with id: ${courseId}`,
+        })
+      }
+  
+      // if (courseDetails.status === "Draft") {
+      //   return res.status(403).json({
+      //     success: false,
+      //     message: `Accessing a draft course is forbidden`,
+      //   });
+      // }
+  
+      let totalDurationInSeconds = 0
+      courseDetails.courseContent.forEach((content) => {
+        content.subSection.forEach((subSection) => {
+          const timeDurationInSeconds = parseInt(subSection.timeDuration)
+          totalDurationInSeconds += timeDurationInSeconds
+        })
+      })
+  
+      const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+  
+      return res.status(200).json({
+        success: true,
+        data: {
+          courseDetails,
+          totalDuration,
+        },
+      })
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      })
     }
-}
+  }

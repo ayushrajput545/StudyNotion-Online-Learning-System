@@ -60,7 +60,7 @@ const courseSchema = new mongoose.Schema({
         ref:"category"
     },
 
-    studentEnrolled:[
+    studentsEnrolled:[
         {
             type:mongoose.Schema.Types.ObjectId,
             required:true,
