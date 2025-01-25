@@ -23,6 +23,8 @@ import CourseDetails from './pages/CourseDetails';
 import ViewCourse from './pages/ViewCourse';
 import VideoDetails from './components/core/ViewCourse/VideoDetails';
 import Instructor from './components/core/Dashboard/InstructorDashboard/Instructor';
+import AddCourse from './components/core/Dashboard/Addcourse/AddCourse';
+import MyCourses from './components/core/Dashboard/MyCourses';
  
 
 function App() {
@@ -63,8 +65,9 @@ function App() {
               user?.accountType === ACCOUNT_TYPE.INSTRUCTOR  && (
                 <>
                   <Route path='dashboard/instructor' element={<Instructor/>}/>
-                  
-                
+                  <Route path="dashboard/add-course" element={<AddCourse/>}/>
+                  <Route path="dashboard/my-courses" element={<MyCourses />} />
+                                
                 </>
               )
             }
