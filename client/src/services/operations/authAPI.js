@@ -15,7 +15,7 @@ import { setUser } from "../../slices/profileSlice";
 export function sendOtp(email,navigate){
 
     return async(dispatch) =>{
-        const toastId = toast.loading("Loading...")
+        const toastId = toast.loading("Loading...") 
         // dispatch(setLoading(true))
         try{
             const response = await apiconnector("POST" , SENDOTP_API , {email , checkUserPresent:true})
@@ -29,7 +29,7 @@ export function sendOtp(email,navigate){
         }
         catch(err){
             console.log("SENDOTP_API ERROR.......",err)
-            toast.error("Could not send OTP")
+            toast.error(err.response.data.message)
         }
         // dispatch(setLoading(false))
         toast.dismiss(toastId)
@@ -51,7 +51,7 @@ export function signUp(accountType , firstName, lastName , email , password , co
                 throw new Error(response.data.message)
             }
 
-            toast.success("Signup Successfull") 
+            toast.success("Account Created! Please Login") 
             navigate('/login') 
         }
         catch(err){

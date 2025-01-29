@@ -13,6 +13,7 @@ import ConfirmationModal from "../components/common/ConfirmationModal"
 import  ReactMarkdown  from "react-markdown"
 import CourseAccordionBar from '../components/core/Course/CourseAccordionBar'
 import { buyCourse } from '../services/operations/studentFeaturesAPI'
+import Footer from '../components/common/Footer'
 
 
 const CourseDetails = () => {
@@ -232,6 +233,7 @@ const handleActive = (id) => {
       </div>
 
       {/* Footer */}
+      <Footer/>
       {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
 
     </>

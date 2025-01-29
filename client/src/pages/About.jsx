@@ -8,6 +8,7 @@ import FoundingStory from '../assets/images/FoundingStory.png'
 import StatsComponents from '../components/core/AboutPage/StatsComponents'
 import LearningGrid from '../components/core/AboutPage/LearningGrid'
 import ContactFormSection from '../components/core/AboutPage/ContactFormSection'
+import Footer from '../components/common/Footer'
 
 
 const About = () => {
@@ -135,6 +136,7 @@ const About = () => {
         </section>
 
         {/* Footer */}
+        <Footer/>
 
         
 

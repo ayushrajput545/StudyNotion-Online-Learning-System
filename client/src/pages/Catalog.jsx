@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import Error from './Error'
 import CourseSlider from '../components/core/Catalog/CourseSlider'
 import Course_Card from '../components/core/Catalog/Course_card'
+import Footer from '../components/common/Footer'
 
 const Catalog = () => {
 
@@ -20,7 +21,7 @@ const Catalog = () => {
     useEffect(()=>{
         const getCategories = async()=>{
             const response = await apiconnector("GET" , categories.CATEGORIES_API)
-            const category_id =  response?.data?.allCategory?.filter((ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName)[0]._id;
+            const category_id =  response?.data?.data?.filter((ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName)[0]._id;
             setCategoryId(category_id)
         }
         getCategories();
@@ -127,6 +128,7 @@ const Catalog = () => {
      </div>
 
      {/* Footer */}
+     <Footer/>
     
     </>
   )

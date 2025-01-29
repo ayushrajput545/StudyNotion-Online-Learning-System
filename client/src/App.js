@@ -25,11 +25,13 @@ import VideoDetails from './components/core/ViewCourse/VideoDetails';
 import Instructor from './components/core/Dashboard/InstructorDashboard/Instructor';
 import AddCourse from './components/core/Dashboard/Addcourse/AddCourse';
 import MyCourses from './components/core/Dashboard/MyCourses';
+import EditCourse from './components/core/Dashboard/EditCourse/EditCourse';
  
 
 function App() {
 
   const { user } = useSelector((state) => state.profile)
+  
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter ">
         <Navbar/>
@@ -67,6 +69,7 @@ function App() {
                   <Route path='dashboard/instructor' element={<Instructor/>}/>
                   <Route path="dashboard/add-course" element={<AddCourse/>}/>
                   <Route path="dashboard/my-courses" element={<MyCourses />} />
+                  <Route path="dashboard/edit-course/:courseId" element={<EditCourse />} />
                                 
                 </>
               )

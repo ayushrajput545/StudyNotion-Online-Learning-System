@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 
 import { changePassword } from "../../../../services/operations/SettingsAPI"
 import IconBtn from '../../../common/IconBtn'
+import toast from "react-hot-toast"
 
 export default function UpdatePassword() {
   const { token } = useSelector((state) => state.auth)
@@ -21,6 +22,7 @@ export default function UpdatePassword() {
   } = useForm()
 
   const submitPasswordForm = async (data) => {
+
     // console.log("password Data - ", data)
     try {
       await changePassword(token, data)
@@ -73,7 +75,9 @@ export default function UpdatePassword() {
                 id="newPassword"
                 placeholder="Enter New Password"
                 className="form-style"
-                {...register("newPassword", { required: true })}
+                {...register("newPassword",   {required:
+                  {value:true , message:"Please Enter New Password"} , 
+                  minLength:{value:4 , message:"Write at least 4 digits"} })}
               />
               <span
                 onClick={() => setShowNewPassword((prev) => !prev)}

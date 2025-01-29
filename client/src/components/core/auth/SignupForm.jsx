@@ -43,6 +43,12 @@ const SignupForm = () => {
       toast.error("Passwords Do Not Match")
       return
     }
+
+    if(password.length <4){
+      toast.error("Password must have at least 4 digits")
+      return
+    }
+    
     const signupData = {
       ...formData,
       accountType,

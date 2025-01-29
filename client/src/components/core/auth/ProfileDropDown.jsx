@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { VscDashboard, VscSignOut } from "react-icons/vsc"
 import { logout } from '../../../services/operations/authAPI'
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
+import ConfirmationModal from '../../common/ConfirmationModal'
+
 
 const ProfileDropDown = () => {
 
@@ -13,6 +15,7 @@ const ProfileDropDown = () => {
   const ref = useRef(null)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [confirmationModal, setConfirmationModal] = useState(null)
 
   useOnClickOutside(ref, () => setOpen(false))
   if (!user) return null
@@ -38,7 +41,15 @@ const ProfileDropDown = () => {
              </Link>   
 
              <div onClick={()=>{
-                 dispatch(logout(navigate)) 
+                
+                setConfirmationModal({
+                                    text1: "Are you sure?",
+                                    text2: "You will be logged out of your account.",
+                                    btn1Text: "Logout",
+                                    btn2Text: "Cancel",
+                                    btn1Handler: () => dispatch(logout(navigate)),
+                                    btn2Handler: () => setConfirmationModal(null) })
+                  
                  setOpen(false)}} 
                  className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
                  >
@@ -49,8 +60,15 @@ const ProfileDropDown = () => {
           </div>
         )
       }
+
+       {
+         confirmationModal &&
+         <ConfirmationModal modalData={confirmationModal} />
+        }
        
     </button>
+
+    
   )
 }
 

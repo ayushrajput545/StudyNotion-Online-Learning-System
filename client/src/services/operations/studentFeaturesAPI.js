@@ -50,7 +50,7 @@ export async function buyCourse(token , courses , userDetails , navigate , dispa
         // options
         
         const options = {
-            key: "rzp_test_qADwwjihi86fQp",
+            key: process.env.RAZORPAY_KEY,
             currency: orderResponse.data.data.currency,
             amount: `${orderResponse.data.data.amount}`,
             order_id: orderResponse.data.data.id,
@@ -117,7 +117,7 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
         if(!response.data.success) {
             throw new Error(response.data.message);
         }
-        toast.success("payment Successful, ypou are addded to the course");
+        toast.success("Payment Successful, You are addded to the course");
         navigate("/dashboard/enrolled-courses");
         dispatch(resetCart());
     }   
