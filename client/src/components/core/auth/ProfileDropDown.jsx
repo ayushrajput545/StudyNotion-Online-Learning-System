@@ -18,6 +18,7 @@ const ProfileDropDown = () => {
   const [confirmationModal, setConfirmationModal] = useState(null)
 
   useOnClickOutside(ref, () => setOpen(false))
+  
   if (!user) return null
   
   return (

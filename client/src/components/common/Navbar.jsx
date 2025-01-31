@@ -212,8 +212,9 @@ const Navbar = () => {
                                                                 {
                                                                     // subLinks?.filter((subLink)=>subLink?.courses?.length>0)?.map((subLink,index)=>(
                                                                          subLinks.map((subLink,index)=>( 
-                                                                            <Link  to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`}  className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"  key={index}>
-                                                                               <p>{subLink.name}</p>   
+                                                                            <Link   to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`}  className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"  key={index}>
+                                                                               <p onClick={()=>{setShowLinks(false) 
+                                                                                              setShowNavbarLinksModal(false) }}>{subLink.name}</p>   
                                                                             </Link>
                                                                          ))
                                                                         

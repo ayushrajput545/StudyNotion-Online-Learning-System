@@ -56,11 +56,14 @@ const Instructor = () => {
             courses.length>0 ?
             (
                 <div>
-                    <div className="my-4 flex h-[450px] space-x-4">
+                    <div className="my-4 flex flex-col md:flex-row h-[450px] space-x-4">
                          {/* Render chart / graph */}
                          {
                             totalAmount >0 || totalStudents>0 ? (
-                                 <InstructorChart courses={instructorData}/>
+                                
+                                    <InstructorChart  courses={instructorData}/>
+                                 
+                                 
 
                             ):(
                                 <div className="flex-1 rounded-md bg-richblack-800 p-6">
@@ -119,7 +122,7 @@ const Instructor = () => {
                                         {course.courseName}
                                         </p>
                                         <div className="mt-1 flex items-center space-x-2">
-                                           <p className="text-xs font-medium text-richblack-300">
+                                           <p className="text-xs hidden md:block  font-medium text-richblack-300">
                                               {course.studentsEnrolled.length} students
                                             </p>
 

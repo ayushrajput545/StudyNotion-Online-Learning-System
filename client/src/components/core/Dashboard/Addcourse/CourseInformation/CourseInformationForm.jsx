@@ -198,7 +198,7 @@ const CourseInformationForm = () => {
             <label className="text-sm text-richblack-5" htmlFor="coursePrice">
                Course Price <sup className="text-pink-200">*</sup>
             </label>
-            <div className="relative">
+            <div className="relative z-[1]">
                 <input
                     id="coursePrice"
                     placeholder="Enter Course Price"

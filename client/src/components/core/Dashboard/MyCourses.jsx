@@ -25,7 +25,7 @@ export default function MyCourses() {
 
   return (
     <div>
-      <div className="mb-14 flex items-center justify-between">
+      <div className="mt-10 mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-medium text-richblack-5">My Courses</h1>
         <IconBtn
           text="Add Course"

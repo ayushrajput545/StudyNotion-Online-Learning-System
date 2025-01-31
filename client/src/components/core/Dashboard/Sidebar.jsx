@@ -7,13 +7,16 @@ import { useNavigate } from 'react-router-dom'
 import { VscSignOut } from "react-icons/vsc"
 import ConfirmationModal from '../../common/ConfirmationModal'
 import { useState } from 'react'
+ 
 
 
-const Sidebar = () => {
+const Sidebar = ({setShowMobileMenu}) => {
     const{user , loading:profileLoading} = useSelector((state)=>state.profile)
     const{loading:authLoading}= useSelector((state)=>state.auth)
     const dispatch = useDispatch()
     const navigate= useNavigate()
+
+   
 
     const [confirmationModal, setConfirmationModal] = useState(null)
 
@@ -28,7 +31,7 @@ const Sidebar = () => {
   return (
     <>
         <div className='flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10'>
-            <div className="flex flex-col">
+            <div onClick={()=>setShowMobileMenu(false)} className="flex flex-col md:mt-0 mt-5">
                 {
                     sidebarLinks.map((link,index)=>{
                         if(link.type && link.type !== user?.accountType)
@@ -45,11 +48,16 @@ const Sidebar = () => {
 
             <div className='flex flex-col'>
                 {/* Setting icon */}
-                <SidebarLink link={{name:"Settings" ,path:"/dashboard/settings"}}  iconName="VscSettingsGear"/>
+                
+                <div onClick={()=>setShowMobileMenu(false)} className='flex flex-col'>
+                    <SidebarLink  link={{name:"Settings" ,path:"/dashboard/settings"}}  iconName="VscSettingsGear"/>
+                </div>
+                
 
                 {/* logout icon */}
                  <button 
                   onClick={()=>
+                  
                   setConfirmationModal({
                     text1: "Are you sure?",
                     text2: "You will be logged out of your account.",

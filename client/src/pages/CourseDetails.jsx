@@ -14,6 +14,9 @@ import  ReactMarkdown  from "react-markdown"
 import CourseAccordionBar from '../components/core/Course/CourseAccordionBar'
 import { buyCourse } from '../services/operations/studentFeaturesAPI'
 import Footer from '../components/common/Footer'
+import toast from 'react-hot-toast'
+import { ACCOUNT_TYPE } from '../utils/constants'
+ 
 
 
 const CourseDetails = () => {
@@ -31,6 +34,8 @@ const CourseDetails = () => {
 
    // Getting courseId from url parameter
   const {courseId} = useParams()
+
+  const {addToCart} = useSelector((state)=>state.cart)
 
   // API CALL for fetching course data
   useEffect(()=>{
@@ -119,6 +124,26 @@ const handleActive = (id) => {
   }
 
 
+  const handleAddToCart = () => {
+    if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+      toast.error("You are an Instructor. You can't buy a course.")
+      return
+    }
+    if (token) {
+      dispatch(addToCart(response?.data?.courseDetails))
+      return
+    }
+    setConfirmationModal({
+      text1: "You are not logged in!",
+      text2: "Please login to add To Cart",
+      btn1Text: "Login",
+      btn2Text: "Cancel",
+      btn1Handler: () => navigate("/login"),
+      btn2Handler: () => setConfirmationModal(null),
+    })
+  }
+
+
   return (
     <>
       <div className='relative w-full bg-richblack-800'>
@@ -167,7 +192,7 @@ const handleActive = (id) => {
                     Buy Now
                   </button>
 
-                  <button className="blackButton">Add to Cart</button>
+                  <button onClick={handleAddToCart} className="blackButton">Add to Cart</button>
                 </div>
             </div>
 
