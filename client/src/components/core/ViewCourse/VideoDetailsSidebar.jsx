@@ -53,7 +53,7 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
 
                                 <div className="flex items-center gap-3">
                                     <span className={`${ activeStatus === course?.sectionName ? "rotate-0": "rotate-180" } transition-all duration-500`}>
-                                     <BsChevronDown />
+                                      <BsChevronDown />
                                     </span>
                                 </div>
                             </div>

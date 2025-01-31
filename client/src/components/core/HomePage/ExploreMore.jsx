@@ -24,7 +24,7 @@ const ExploreMore = () => {
     }
 
   return (
-    <div>
+    <div className='flex flex-col '>
 
         <div className='text-4xl font-semibold text-center '>
             Unlock the
@@ -33,7 +33,7 @@ const ExploreMore = () => {
 
         <p className='text-center text-richblack-300 text-md  mt-3'>Learn to Build Anything You Can Imagine</p>
 
-        <div className='flex flex-row rounded-full bg-richblack-800 mb-5 mt-5 px-1 py-1'>
+        <div className='md:flex flex-row rounded-full bg-richblack-800 mb-5 mt-5 px-1 py-1  hidden'>
             {
                 tabsName.map((element , index)=>{
                     return(

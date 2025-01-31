@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import Navbar from './components/common/Navbar';
@@ -26,11 +26,13 @@ import Instructor from './components/core/Dashboard/InstructorDashboard/Instruct
 import AddCourse from './components/core/Dashboard/Addcourse/AddCourse';
 import MyCourses from './components/core/Dashboard/MyCourses';
 import EditCourse from './components/core/Dashboard/EditCourse/EditCourse';
+import { useEffect } from 'react';
  
 
 function App() {
 
   const { user } = useSelector((state) => state.profile)
+ 
   
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter ">

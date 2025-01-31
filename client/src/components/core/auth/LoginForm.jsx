@@ -65,6 +65,12 @@ const LoginForm = () => {
            Sign In
         </button>
 
+
+        <div className='text-white text-center'>
+               Don't have an account ? 
+               <span onClick={()=>navigate('/signup')} className='text-blue-100 cursor-pointer'> Signup here</span>
+        </div>
+
     
 
     </form>

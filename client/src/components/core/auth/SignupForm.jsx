@@ -177,6 +177,11 @@ const SignupForm = () => {
               Create Account
             </button>
 
+            <div className='text-white text-center'>
+               Already have an account ? 
+               <span onClick={()=>navigate('/login')} className='text-blue-100 cursor-pointer'> Login here</span>
+            </div>
+
         </form>
     </div>
   )
