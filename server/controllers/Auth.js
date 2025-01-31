@@ -2,7 +2,7 @@
  const OTP = require('../models/OTP');
  const Profile = require('../models/Profile');
  const otpGenerator = require('otp-generator');
- const bcrypt = require('bcrypt');
+ const bcrypt = require('bcryptjs');
  const jwt = require('jsonwebtoken');
  const mailSender = require('../util/mailSender')
  const { passwordUpdated } = require("../mail/passwordUpdate")
