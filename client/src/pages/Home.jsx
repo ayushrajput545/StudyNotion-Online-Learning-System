@@ -29,7 +29,7 @@ const Home = () => {
              <div className="flex flex-row items-center gap-2 rounded-full px-10 py-[5px] transition-all duration-200 group-hover:bg-richblack-900">
                     <p>
                       {
-                        token !==null ? <div>Your DashBoard</div> : <div>Create Account or Login</div>
+                        token !==null ? <div>Go to Your DashBoard</div> : <div>Create Account or Login</div>
                       }
                     </p>
                     <FaArrowRight />
