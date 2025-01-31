@@ -41,25 +41,22 @@ exports.createCategory = async(req,res)=>{
 
 //getAll tags handler function
 
-exports.showAllCategories = async(req,res)=>{
-
-    try{
-        const allCategory = await Category.find({} , {name:true , description:true}) // here we got all categories im which name and desc must present
-        return res.status(200).json({
-            success:true,
-            message:'All categories fetched sucessfully',
-            allCategory
-        })
-
-    }
-    catch(err){
-        console.log(err);
-        return res.status(500).json({
-            success:false,
-            message:'Something went wrong while fetching category'
-        })
-    }
+exports.showAllCategories = async (req, res) => {
+	try {
+        console.log("INSIDE SHOW ALL CATEGORIES");
+		const allCategorys = await Category.find({});
+		res.status(200).json({
+			success: true,
+			data: allCategorys,
+		});
+	} catch (error) {
+		return res.status(500).json({
+			success: false,
+			message: error.message,
+		});
+	}
 }
+
 
 //category page details
 exports.categoryPageDetails = async (req, res) => {

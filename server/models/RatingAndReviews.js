@@ -13,7 +13,7 @@ const ratingAndReviewsSchema = new mongoose.Schema({
         required:true
     },
 
-    reviews:{
+    review:{
         type:String,
         required:true
     },
@@ -27,4 +27,4 @@ const ratingAndReviewsSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model("RatingAndReviews" , ratingAndReviewsSchema);
+module.exports = mongoose.model("RatingAndReviews", ratingAndReviewsSchema);
