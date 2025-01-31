@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api/v1"
+const BASE_URL = "https://studynotion-ed-tech-platform-2-ic89.onrender.com"
 
 
 export const endpoints ={
