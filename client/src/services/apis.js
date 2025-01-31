@@ -1,4 +1,4 @@
-const BASE_URL = "https://studynotion-ed-tech-platform-2-ic89.onrender.com"
+const BASE_URL = "https://studynotion-ed-tech-platform-2-ic89.onrender.com/api/v1"
 
 
 export const endpoints ={

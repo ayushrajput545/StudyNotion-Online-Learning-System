@@ -56,7 +56,7 @@ const Instructor = () => {
             courses.length>0 ?
             (
                 <div>
-                    <div className="my-4 flex flex-col md:flex-row h-[450px] space-x-4">
+                    <div className="my-4 flex flex-col md:flex-row md:h-[450px] h-screen space-y-4 space-x-4">
                          {/* Render chart / graph */}
                          {
                             totalAmount >0 || totalStudents>0 ? (

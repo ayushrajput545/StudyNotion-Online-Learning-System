@@ -33,7 +33,7 @@ const Navbar = () => {
         try{
             setLoading(true)
             const response =await apiconnector("GET" , categories.CATEGORIES_API)
-            // console.log(response);
+            console.log(response);
             setSubLinks(response.data.data)
         }
         catch(err){

@@ -4,8 +4,9 @@ import { IoIosArrowBack } from "react-icons/io"
 import IconBtn from '../../common/IconBtn'
 import { useSelector } from "react-redux"
 import { BsChevronDown } from "react-icons/bs"
+import { BsChevronUp } from "react-icons/bs";
 
-const VideoDetailsSidebar = ({setReviewModal}) => {
+const VideoDetailsSidebar = ({setReviewModal,setShowMobileMenu}) => {
 
     const navigate= useNavigate()
     const [activeStatus, setActiveStatus] = useState("")
@@ -21,7 +22,7 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
     <>
       <div className='flex h-[calc(100vh-3.5rem)] w-[320px] max-w-[350px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800'>
             <div className="mx-5 flex flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">
-                <div className="flex w-full items-center justify-between ">
+                <div className="flex mt-10 md:mt-0 w-full items-center justify-between ">
 
                     <div onClick={()=>navigate('/dashboard/enrolled-courses')} 
                         className="flex h-[35px] w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
@@ -53,7 +54,9 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
 
                                 <div className="flex items-center gap-3">
                                     <span className={`${ activeStatus === course?.sectionName ? "rotate-0": "rotate-180" } transition-all duration-500`}>
-                                      <BsChevronDown />
+                                        {
+                                            activeStatus=== course?._id ? <BsChevronDown /> : <BsChevronUp />
+                                        }   
                                     </span>
                                 </div>
                             </div>
@@ -66,6 +69,7 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
                                         course.subSection.map((topic, i)=>(
                                             <div className={`flex gap-3  px-5 py-2 ${ videoBarActive === topic._id ? "bg-yellow-200 font-semibold text-richblack-800" : "hover:bg-richblack-900"}`} 
                                               key={i} onClick={()=>{
+                                                setShowMobileMenu(false)
                                                 navigate( `/view-course/${courseEntireData?._id}/section/${course?._id}/sub-section/${topic?._id}`)
                                                 setVideoBarActive(topic._id)}}>
                                                     <input type="checkbox" checked={completedLectures.includes(topic?._id)}  onChange={() => {}} />
