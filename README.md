@@ -1,8 +1,9 @@
 # StudyNotion-Online learning system
 
+StudyNotion is a comprehensive Ed-Tech platform (Learning Management System) that empowers students to purchase, manage, and engage with educational content while allowing instructors to create, upload, and sell courses. It includes features like course ratings, seamless learning management, and an intuitive user experience. 🚀
+
 ![StudyNotion Screenshot](https://github.com/ayushrajput545/StudyNotion-Ed-Tech-Platform/blob/main/Screenshot%202025-02-01%20211931.png)
 
-StudyNotion is a comprehensive Ed-Tech platform (Learning Management System) that empowers students to purchase, manage, and engage with educational content while allowing instructors to create, upload, and sell courses. It includes features like course ratings, seamless learning management, and an intuitive user experience. 🚀
 
 ## Workflow
 1. **User Signup:** Users can sign up as either a student or an instructor.
@@ -48,7 +49,8 @@ StudyNotion is a comprehensive Ed-Tech platform (Learning Management System) tha
 
 ## Screenshots
 ![Dashboard Screenshot](https://github.com/ayushrajput545/StudyNotion-Ed-Tech-Platform/blob/main/Screenshot%202025-02-01%20211957.png)
-![Course Detail Page Screenshot](https://github.com/ayushrajput545/StudyNotion-Ed-Tech-Platform/blob/main/Screenshot%202025-02-01%20212045.png)
+
+![Course Page Screenshot](https://github.com/ayushrajput545/StudyNotion-Ed-Tech-Platform/blob/main/Screenshot%202025-02-01%20212936.png)
 
 ### Feel free to fork the repository and submit a pull request.
    ```bash
