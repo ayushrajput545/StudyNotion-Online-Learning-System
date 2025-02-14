@@ -54,6 +54,6 @@ StudyNotion is a comprehensive Ed-Tech platform (Learning Management System) tha
 
 ### Feel free to fork the repository and submit a pull request.
    ```bash
-   git clone https://github.com/your-username/tomato-food-ordering-app.git
-   cd tomato-food-ordering-app
+   git clone https://github.com/your-username/StudyNotion-Online-Learning-System-app.git
+   cd tomato-StudyNotion-Online-Learning-System
    ```
