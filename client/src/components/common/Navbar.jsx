@@ -38,7 +38,7 @@ const Navbar = () => {
         }
         catch(err){
             
-            console.log("Could not fetch Categories.", err)
+            console.log(" Sorry! Could not fetch Categories.", err)
         }
             setLoading(false)
     }
@@ -86,8 +86,9 @@ const Navbar = () => {
                                                         <>
                                                             {
                                                                 // subLinks?.filter((subLink)=>subLink?.courses?.length>0)?.map((subLink,index)=>(
+                                                                    // encodeURIComponent("AI/ML") → converts it to "AI%2FML" instead of "ai/ml", making it a valid URL segment.
                                                                      subLinks.map((subLink,index)=>( 
-                                                                        <Link  to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`}  className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"  key={index}>
+                                                                        <Link    to={`/catalog/${encodeURIComponent(subLink.name.split(" ").join("-").toLowerCase())}`}   className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"  key={index}>
                                                                            <p>{subLink.name}</p>   
                                                                         </Link>
                                                                      ))
