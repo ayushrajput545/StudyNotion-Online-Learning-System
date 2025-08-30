@@ -37,7 +37,7 @@ function ReviewSlider() {
         dispatch(setLoading(false))
       }
     })()
-  }, [])
+  }, [dispatch])
 
   // console.log(reviews)
 
