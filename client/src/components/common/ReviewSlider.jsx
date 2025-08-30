@@ -16,19 +16,25 @@ import { Autoplay, FreeMode, Pagination } from "swiper/modules"
 // Get apiFunction and the endpoint
 import { apiconnector } from "../../services/apiconnector"
 import { ratingsEndpoints } from "../../services/apis"
+import { useDispatch, useSelector } from "react-redux"
+import { setLoading } from "../../slices/authSlice"
 
 function ReviewSlider() {
   const [reviews, setReviews] = useState([])
+  const {loading} = useSelector((state)=>state.auth)
+  const dispatch = useDispatch()
   const truncateWords = 15
 
   useEffect(() => {
     ;(async () => {
+      dispatch(setLoading(true))
       const { data } = await apiconnector(
         "GET",
         ratingsEndpoints.REVIEWS_DETAILS_API
       )
       if (data?.success) {
         setReviews(data?.data)
+        dispatch(setLoading(false))
       }
     })()
   }, [])
@@ -38,6 +44,12 @@ function ReviewSlider() {
   return (
     <div className="text-white">
       <div className="my-[50px] h-[184px] max-w-maxContentTab lg:max-w-maxContent ">
+        {
+          loading ?
+            <div className="grid min-h-[120px] place-items-center">
+                 <div className="spinner"></div>
+            </div>
+            :
       <Swiper
           spaceBetween={25}
           loop={true}
@@ -104,6 +116,7 @@ function ReviewSlider() {
           })}
           {/* <SwiperSlide>Slide 1</SwiperSlide> */}
         </Swiper>
+}
       </div>
     </div>
   )
