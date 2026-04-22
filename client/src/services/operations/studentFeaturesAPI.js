@@ -33,6 +33,8 @@ export async function buyCourse(token , courses , userDetails , navigate , dispa
         // Load the script
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js")
 
+        console.log("Script Load", res);
+
         if(!res){
             toast.error("RazorPay SDK failed to load");
             return;
@@ -45,12 +47,14 @@ export async function buyCourse(token , courses , userDetails , navigate , dispa
             throw new Error(orderResponse.data.message)
         }
 
-        console.log("PRINTING orderResponse", orderResponse);
+        // console.log("PRINTING orderResponse", orderResponse);
+        console.log(userDetails)
 
         // options
         
+
         const options = {
-            key: process.env.RAZORPAY_KEY,
+            key: process.env.REACT_APP_RAZORPAY_KEY,
             currency: orderResponse.data.data.currency,
             amount: `${orderResponse.data.data.amount}`,
             order_id: orderResponse.data.data.id,
@@ -62,12 +66,12 @@ export async function buyCourse(token , courses , userDetails , navigate , dispa
                 email:userDetails.email
             },
             handler: function (response){
-                // send successfull wala email
-                sendPaymentSuccessEmail(response, orderResponse.data.data.amount,token );
-                console.log("PRINTING RESPOSNE >>>>" , response)
 
                 // verify Payment
                 verifyPayment({...response, courses}, token, navigate, dispatch);
+                // send successfull wala email
+                sendPaymentSuccessEmail(response, orderResponse.data.data.amount,token );
+                // console.log("PRINTING RESPOSNE >>>>" , response)
             }
         }
 
