@@ -7,7 +7,8 @@ const { paymentSuccessEmail } = require("../mail/paymentSuccessEmail")
 const crypto = require("crypto")
 const CourseProgress = require("../models/courseProgress")
 const { courseEnrollmentEmail} = require("../mail/courseEnrollmentEmail")
-const Payment = require("../models/payment")
+const Payment = require("../models/payment");
+const { validateWebhookSignature } = require('razorpay');
 
 
 
@@ -83,68 +84,59 @@ exports.capturePayment = async (req, res) => {
 
 // controllers/paymentController.js
 exports.webhookHandler = async (req, res) => {
+    
+    const webhookbody = req.body;
+    const razorpaySignature = req.get("X-Razorpay-Signature");
+    const webhookEventId = req.get("X-Razorpay-Event-Id");
     const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET  // set this in Razorpay dashboard
 
-    console.log("webhooksecret",webhookSecret)
-
-    // Step 1: Get the signature Razorpay sent in headers
-    const razorpaySignature = req.headers["x-razorpay-signature"]
-
-    // Step 2: Verify it's actually from Razorpay (not a fake request)
-    const expectedSignature = crypto
-        .createHmac("sha256", webhookSecret)
-        .update(req.body.toString())   // raw body string
-        .digest("hex")
-
-    if (razorpaySignature !== expectedSignature) {
-        console.log("FAKE WEBHOOK — Rejected")
-        return res.status(400).json({ success: false })
+    if(!validateWebhookSignature(JSON.stringify(webhookbody) , razorpaySignature , webhookSecret)){
+      console.log("Validation Error")
+      return res.status(400);
     }
 
-    // Step 3: Parse the event
-    const event = JSON.parse(req.body)
-    console.log("Webhook Event Received:", event.event)
-
-    // Step 4: Handle payment.captured event
-    if (event.event === "payment.captured") {
-        const { order_id, id: payment_id, amount } = event.payload.payment.entity
-
-        try {
-            // Step 5: Find the payment record in DB
-            const paymentRecord = await Payment.findOne({ orderId: order_id })
-
-            if (!paymentRecord) {
-                console.log("No payment record found for order:", order_id)
-                return res.status(200).json({ received: true }) // still return 200
-            }
-
-            // Step 6: Handle Duplicate — if already success, skip
-            if (paymentRecord.status === "success") {
-                console.log("Duplicate webhook — already processed")
-                return res.status(200).json({ received: true })
-            }
-
-            // Step 7: Update payment record to success
-            await Payment.findOneAndUpdate(
-                { orderId: order_id },
-                {
-                    paymentId: payment_id,
-                    status: "success"
-                }
-            )
-
-            // Step 8: Enroll the students
-            await enrollStudents(paymentRecord.courses, paymentRecord.userId, res)
-
-            console.log("Student enrolled via webhook ✅")
-
-        } catch (error) {
-            console.log("Webhook processing error:", error)
-            return res.status(500).json({ success: false })
-        }
+    const payment = await Payment.find({webhookEventId});
+    if(payment.webhookEventId === webhookEventId){
+      console.log("Duplicate Webhook");
+      return res.status(400);
     }
 
-    // Always return 200 to Razorpay — else it retries
+    const event = webhookbody.event;
+    const paymentId = webhookbody.payload.payment.entity.id;
+    const orderId = webhookbody.payload.payment.entity.order_id;
+    
+    if(!event || !paymentId || !orderId){
+      console.log("Missing field");
+      return res.status(400);
+    }
+
+    if(event === "payment.captured"){
+
+        await Payment.findOneAndUpdate(
+            { orderId: order_id },
+            {
+                paymentId: payment_id,
+                status: "success"
+            }
+        )
+
+        await enrollStudents(paymentRecord.courses, paymentRecord.userId, res)
+
+        console.log("Student enrolled via webhook ✅")
+
+    }
+
+    if(event === "payment.failed"){
+      console.log("Payment Failed");
+      await Payment.findOneAndUpdate(
+            { orderId: order_id },
+            {
+                paymentId: payment_id,
+                status: "failed"
+            }
+        )
+    }
+
     return res.status(200).json({ received: true })
 }
 

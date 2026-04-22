@@ -11,6 +11,12 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         default: null         // filled after payment success
     },
+    webhookEventId:{
+        type:String
+    },
+    event:{
+        type:String
+    },
     signature: {
         type: String,
         default: null
