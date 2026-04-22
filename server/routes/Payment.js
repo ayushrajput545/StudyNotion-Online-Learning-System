@@ -5,7 +5,11 @@ const { capturePayment, verifyPayment, sendPaymentSuccessEmail, webhookHandler }
 const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth")
 
 router.post("/capturePayment", auth, isStudent, capturePayment)
-router.post("/verify-payment-webhook", auth , isStudent , webhookHandler)
+router.post(
+    "/verify-payment-webhook",
+    express.raw({ type: "application/json" }),
+    webhookHandler
+)
 // router.post("/verifyPayment",auth, isStudent, verifyPayment)
 router.post("/sendPaymentSuccessEmail", auth, isStudent, sendPaymentSuccessEmail);
 
