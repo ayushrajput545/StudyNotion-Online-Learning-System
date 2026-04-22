@@ -84,6 +84,8 @@ exports.capturePayment = async (req, res) => {
 
 // controllers/paymentController.js
 exports.webhookHandler = async (req, res) => {
+
+  console.log("HITTTTTTINGGGGGGGGGGG WEBHOOOOOOOOKK");
     
     const webhookbody = req.body;
     const razorpaySignature = req.get("X-Razorpay-Signature");
