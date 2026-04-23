@@ -11,12 +11,7 @@ router.post(
     webhookHandler
 )
 
-// Temporary debug route — no middleware at all
-router.post("/webhook-test", (req, res) => {
-    console.log("BASIC HIT")
-    return res.status(200).json({ received: true })
-})
-// router.post("/verifyPayment",auth, isStudent, verifyPayment)
+router.post("/verifyPayment",auth, isStudent, verifyPayment)
 router.post("/sendPaymentSuccessEmail", auth, isStudent, sendPaymentSuccessEmail);
 
 module.exports = router

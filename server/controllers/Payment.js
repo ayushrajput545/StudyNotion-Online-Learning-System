@@ -67,7 +67,7 @@ exports.capturePayment = async (req, res) => {
           amount: total_amount,
           status: "initiated"            // not paid yet
       })
-      // console.log(paymentResponse)
+      console.log("Payment Response",paymentResponse)
       res.json({
         success: true,
         data: paymentResponse,
