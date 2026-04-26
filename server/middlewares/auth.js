@@ -6,7 +6,7 @@ exports.auth = async (req, res, next) => {
 	try {
 		// Extracting JWT from request cookies, body or header
 		const token =
-			req.cookies.token ||
+			req.cookies.accessToken ||
 			req.body.token ||
 			req.header("Authorization").replace("Bearer ", "");
 
@@ -25,7 +25,8 @@ exports.auth = async (req, res, next) => {
 			// If JWT verification fails, return 401 Unauthorized response
 			return res
 				.status(401)
-				.json({ success: false, message: "token is invalid" });
+				.json({ success: false, message: "Access Token is Expired" , code:"TOKEN_EXPIRED" });// frontend will use this code to hit refreshtoken api
+
 		}
 
 		// If JWT is valid, move on to the next middleware or request handler

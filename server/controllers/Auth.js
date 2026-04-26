@@ -183,6 +183,8 @@
 
  exports.login = async(req, res) =>{
 
+    console.log("HITTING API")
+
     try{
 
         //Step 1 : fetch all the entered data
@@ -213,30 +215,51 @@
  
             //create a token
            const payload={
-            email:user.email,
-            id:user._id,
-            accountType:user.accountType
+                email:user.email,
+                id:user._id,
+                accountType:user.accountType
             }
 
             const token = jwt.sign(payload , process.env.JWT_SECRET, {expiresIn:"2h"});
 
-            //insert token in user
-            user.token = token,
-            user.password= undefined // hide password in our response 
+            const refreshToken = jwt.sign(payload , process.env.REFRESH_TOKEN_SECRET , {expiresIn:"7d"})
+            user.refreshToken = refreshToken;
+            await user.save();
 
+            //insert token in user
+            // user.token = token,
+            user.password= undefined // hide password in our response 
+            
+            //cookie options
+            const accessOptions = {
+                httpOnly:true,
+                secure:true,
+                expires: new Date(Date.now() + 120 * 60 * 1000), // 120 min
+            }
+
+            const refreshOptions = {
+                httpOnly: true,
+                secure: true,
+                expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+            };
              // create cookies 
 
-        const options = {
-            expires: new Date(Date.now() + 3 * 24 * 60*60*1000),
-            httpOnly:true
-        }
+        // const options = {
+        //     expires: new Date(Date.now() + 3 * 24 * 60*60*1000),
+        //     httpOnly:true
+        // }
 
-           res.cookie("token" , token , options).status(200).json({
-            success:true,
-            token,
-            user,
-            message:"Logged in successfully"
-           })
+           return res
+             .cookie("accessToken" , token , accessOptions)
+             .cookie("refreshToken" , refreshToken , refreshOptions)
+             .status(200)
+             .json({
+                success:true,
+                token,
+                refreshToken,
+                user,
+                message:"Logged in successfully"
+            })
 
          }
 
@@ -257,6 +280,81 @@
         })
     }
  }
+
+ exports.refreshAccessToken = async(req,res)=>{
+    try{
+
+        const refreshToken = req.cookies.refreshToken;
+
+        if (!refreshToken) {
+            return res.status(401).json({
+                success: false,
+                message: "Refresh token missing",
+            });
+        }
+
+        const decoded = jwt.verify(
+            refreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+        );
+
+        const user = await User.findById(decoded.id);
+
+        if (!user || user.refreshToken !== refreshToken) {
+            return res.status(403).json({
+                success: false,
+                message: "Invalid refresh token",
+            });
+        }
+
+        const newAccessToken = jwt.sign(
+            {email:user.email,id:user._id,accountType:user.accountType},
+            process.env.JWT_SECRET,
+            { expiresIn: "2h" }
+        )
+
+        return res.cookie("accessToken", newAccessToken, {
+            httpOnly: true,
+            secure: true,
+        }).json({
+            success: true,
+            accessToken: newAccessToken,
+        });
+
+    }
+    catch(err){
+        return res.status(403).json({
+            success: false,
+            message: "Invalid or expired refresh token",
+       });
+    }
+ }
+
+
+exports.logout = async (req, res) => {
+  try {
+    const incomingRefreshToken = req.cookies?.refreshToken;
+
+    if (incomingRefreshToken) {
+      // Revoke the refresh token in DB
+      await User.findOneAndUpdate(
+        { refreshToken: incomingRefreshToken },
+        { $unset: { refreshToken: "" } }
+      );
+    }
+
+    // Clear both cookies
+    res
+      .clearCookie("accessToken",  { httpOnly: true, sameSite: "strict", secure: true })
+      .clearCookie("refreshToken", { httpOnly: true, sameSite: "strict", secure: true })
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
+
+  } catch (err) {
+    console.error("Logout error:", err);
+    return res.status(500).json({ success: false, message: "Logout failed" });
+  }
+};
 
 
 // Controller for Changing Password

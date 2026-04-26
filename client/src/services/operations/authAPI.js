@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { apiconnector } from "../apiconnector";
+import { apiconnector, axiosInstance, BASE_URL } from "../apiconnector";
 import { endpoints } from "../apis";
 import { setLoading,setToken } from "../../slices/authSlice";
 import { setUser } from "../../slices/profileSlice";
@@ -90,7 +90,7 @@ export function login(email,password,navigate){
                 image:userImg
              }))
 
-             localStorage.setItem("token" , JSON.stringify(response.data.token))
+             localStorage.setItem("token" , JSON.stringify(response.data.token)) //❌we can remove this but let just not remove
              localStorage.setItem("user", JSON.stringify(response.data.user))
              navigate("/dashboard/my-profile")
         }
@@ -159,7 +159,8 @@ export function resetPassword(password , confirmPassword , token){
 //logout fucntion
 
 export function logout(navigate){
-    return (dispatch)=>{
+    return async(dispatch)=>{
+        await axiosInstance.post(`${BASE_URL}/auth/log-out`)
         dispatch(setToken(null))
         dispatch(setUser(null))
         // dispatch(resetCart())
