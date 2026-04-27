@@ -1,4 +1,5 @@
-const { default: redisClient } = require('../config/redis');
+
+const redisClient = require('../config/redis');
 const Category = require('../models/Category');
 
 

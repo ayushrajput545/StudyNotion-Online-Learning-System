@@ -15,6 +15,7 @@ export const apiconnector = (method , url , bodyData , headers , params)=>{
 }
 
 export const BASE_URL = "https://studynotion-ed-tech-platform-2-ic89.onrender.com/api/v1"
+// export const BASE_URL="http://localhost:3000/api/v1"
 
 axiosInstance.interceptors.response.use(
   (response) => response,

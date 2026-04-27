@@ -6,7 +6,8 @@ require('dotenv').config();
 const { convertSecondsToDuration } =  require('../util/secToDuration')
 const CourseProgress = require('../models/courseProgress')
 const Section = require('../models/Section')
-const SubSection = require('../models/SubSection')
+const SubSection = require('../models/SubSection');
+const redisClient = require('../config/redis');
 
 //create courses by instructor
 exports.createCourse = async (req, res) => {
