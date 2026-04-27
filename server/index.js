@@ -13,6 +13,8 @@ const cors = require('cors');
 const{cloudinaryConnect} = require('./config/cloudinary');
 const fileUpload = require('express-fileupload');
 const dotenv = require('dotenv');
+const { default: redisClient } = require('./config/redis');
+const configureCore = require('./config/configureCors');
 dotenv.config();
 
 const PORT = process.env.PORT || 4000
@@ -25,12 +27,7 @@ cloudinaryConnect();
 //add middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-    cors({
-        origin: "https://studynotion-edtec.netlify.app",
-        credentials:true
-    })
-)
+app.use(configureCore());
 // app.use(cors())
 
 app.use(
@@ -53,6 +50,18 @@ app.use('/' , (req,res)=>{
         message:"Your Server is running"
     })
 });
+
+//test redis
+app.get('/test-redis' ,async (req,res)=>{
+  try {
+    await redisClient.set("test", "working", "EX", 20);
+    const data = await redisClient.get("test");
+
+    res.json({ data });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+})
 
 //activate the server
  app.listen(PORT , ()=>{

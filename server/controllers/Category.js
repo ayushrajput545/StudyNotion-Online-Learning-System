@@ -1,3 +1,4 @@
+const { default: redisClient } = require('../config/redis');
 const Category = require('../models/Category');
 
 
@@ -64,6 +65,16 @@ exports.categoryPageDetails = async (req, res) => {
       const { categoryId } = req.body
       // console.log("PRINTING CATEGORY ID: ", categoryId);
       // Get courses for the specified category
+
+      //1. Check data present in redis or not if present return that 
+      const cacheKey = `categoryDetailPage:${categoryId}`;
+      const cachedData = await redisClient.get(cacheKey);
+
+      if(cachedData){
+        console.log("CACHE HIT");
+        return res.status(200).json(JSON.parse(cachedData));
+      }
+
       const selectedCategory = await Category.findById(categoryId)
         .populate({
           path: "courses",
@@ -118,6 +129,26 @@ exports.categoryPageDetails = async (req, res) => {
         .sort((a, b) => b.sold - a.sold)
         .slice(0, 10)
        // console.log("mostSellingCourses COURSE", mostSellingCourses)
+
+      const response = {
+        success: true,
+        data: {
+          selectedCategory,
+          differentCategory,
+          mostSellingCourses,
+        },
+      };
+
+      //2. Add data in redis if not present : 
+        //Store in Redis (5 min)
+        //IMp: When course/category changes:--> await redisClient.del(`categoryPage:${categoryId}`);, when course created , update
+      await redisClient.set(
+        cacheKey,
+        JSON.stringify(response),
+        "EX",
+        300 // 300 sec
+      );
+
       res.status(200).json({
         success: true,
         data: {
@@ -126,6 +157,8 @@ exports.categoryPageDetails = async (req, res) => {
           mostSellingCourses,
         },
       })
+
+
     } catch (error) {
       return res.status(500).json({
         success: false,

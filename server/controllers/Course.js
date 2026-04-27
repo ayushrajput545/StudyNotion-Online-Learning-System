@@ -115,6 +115,8 @@ exports.createCourse = async (req, res) => {
       { new: true }
     )
     console.log("HEREEEEEEEE", categoryDetails2)
+
+    await redisClient.del(`categoryPage:${category}`); // delete this while creating new course
     // Return the new course and a success message
     res.status(200).json({
       success: true,
@@ -374,6 +376,10 @@ exports.editCourse = async (req, res) => {
       })
       .exec()
 
+      if (course.category) {
+       await redisClient.del(`categoryPage:${course.category}`);
+      }
+
     res.json({
       success: true,
       message: "Course updated successfully",
@@ -428,6 +434,10 @@ exports.deleteCourse = async (req, res) => {
 
     // Delete the course
     await Course.findByIdAndDelete(courseId)
+
+    if (course.category) {
+     await redisClient.del(`categoryPage:${course.category}`);
+    }
 
     return res.status(200).json({
       success: true,
