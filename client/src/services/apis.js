@@ -1,6 +1,8 @@
-const BASE_URL = "https://studynotion-ed-tech-platform-2-ic89.onrender.com/api/v1"
+// const BASE_URL = "https://studynotion-ed-tech-platform-2-ic89.onrender.com/api/v1"
 // const BASE_URL="http://localhost:3000/api/v1"
 // const BASE_URL="https://c944-2409-40e3-20-ca13-a91f-7989-ed7c-191a.ngrok-free.app/api/v1"
+
+import { BASE_URL } from "./apiconnector"
 
 
 export const endpoints ={
