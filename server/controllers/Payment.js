@@ -9,6 +9,7 @@ const CourseProgress = require("../models/courseProgress")
 const { courseEnrollmentEmail} = require("../mail/courseEnrollmentEmail")
 const Payment = require("../models/payment");
 const { validateWebhookSignature } = require('razorpay');
+const redisClient = require('../config/redis');
 
 
 
@@ -173,6 +174,9 @@ exports.webhookHandler = async (req, res) => {
     
       if (expectedSignature === razorpay_signature) {
         await enrollStudents(courses, userId, res)
+
+        await redisClient.del(`enrolled${userId}`) ; // delete when user buy new course
+        
         return res.status(200).json({ success: true, message: "Payment Verified" })
       }
     

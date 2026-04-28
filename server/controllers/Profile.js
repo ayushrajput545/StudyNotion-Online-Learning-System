@@ -4,7 +4,8 @@ const { uploadImageToCloudinary } = require("../util/imageUploader");
 require('dotenv').config();
 const Course = require('../models/Course');
 const CourseProgress = require('../models/courseProgress')
-const { convertSecondsToDuration } =  require('../util/secToDuration')
+const { convertSecondsToDuration } =  require('../util/secToDuration');
+const redisClient = require('../config/redis');
 
 
 exports.updateProfile = async (req, res) => {
@@ -172,6 +173,14 @@ exports.getEnrolledCourses = async (req, res) => {
   try {
     
     const userId = req.user.id
+    const cachekey = `enrolled${userId}`
+    const  cachedData = await redisClient.get(cachekey);
+
+    if(cachedData){
+      console.log("CACHE HIT")
+      return res.status(200).json(JSON.parse(cachedData));
+    }
+
     let userDetails = await User.findOne({
       _id: userId,
     })
@@ -223,10 +232,15 @@ exports.getEnrolledCourses = async (req, res) => {
         message: `Could not find user with id: ${userDetails}`,
       })
     }
-    return res.status(200).json({
-      success: true,
-      data: userDetails.courses,
-    })
+
+    const response = {
+      success:true,
+      data:userDetails.courses
+    }
+
+    await redisClient.set(cachekey , JSON.stringify(response) , "EX" , 600);
+
+    return res.status(200).json(response)
   } catch (error) {
     return res.status(500).json({
       success: false,
