@@ -16,6 +16,8 @@ const dotenv = require('dotenv');
 const { default: redisClient } = require('./config/redis');
 const configureCore = require('./config/configureCors');
 dotenv.config();
+require('./services/cron.service')
+
 
 const PORT = process.env.PORT || 4000
 
