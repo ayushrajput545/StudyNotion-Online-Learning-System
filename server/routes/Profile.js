@@ -4,6 +4,7 @@ const router = express.Router();
 const{updateDisplayPicture , updateProfile , getAllUserDetails ,deleteAccount ,getEnrolledCourses , instructorDashboard}= require('../controllers/Profile');
 const {auth , isInstructor}=require('../middlewares/auth');
 const sensitiveEndpointLimiter = require('../middlewares/rate-limiter');
+const { clearSession, sendMessage } = require('../services/chatbot.service');
 
 router.put('/updateDisplayPicture',auth ,  updateDisplayPicture);
 router.put('/updateProfile',auth ,updateProfile);
@@ -13,6 +14,8 @@ router.delete('/deleteAccount',auth , deleteAccount)
 router.get("/getEnrolledCourses", auth, getEnrolledCourses)
 router.get("/instructorDashboard", auth, isInstructor, instructorDashboard)
 
+router.post('/send-message', sendMessage);
+router.post('/clear-session', clearSession);
 
 
 module.exports = router 

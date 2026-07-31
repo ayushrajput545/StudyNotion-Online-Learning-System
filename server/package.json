@@ -11,6 +11,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@langchain/community": "^1.1.29",
+    "@langchain/google-genai": "^2.2.0",
+    "@langchain/pinecone": "^1.0.3",
+    "@langchain/textsplitters": "^1.0.1",
+    "@pinecone-database/pinecone": "^5.1.2",
+    "@langchain/core": "^1.2.3",
+    "@google/genai": "^2.13.0",
     "axios": "^1.19.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -32,6 +39,7 @@
     "nodemailer": "^6.9.15",
     "nodemon": "^3.1.7",
     "otp-generator": "^4.0.1",
+    "pdf-parse": "^2.4.5",
     "rate-limit-redis": "^4.3.1",
     "razorpay": "^2.9.4"
   },

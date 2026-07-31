@@ -8,7 +8,8 @@ const configureCore = ()=>{
          origin:(origin,callback)=>{
             const allowedOrigin =[
                 'http://localhost:3001', // local development frontend
-                'https://studynotion-edtec.netlify.app' // production domain frontend
+                'https://studynotion-edtec.netlify.app', // production domain frontend
+                'http://localhost:3000'
             ]
 
             if(!origin || allowedOrigin.indexOf(origin) !==-1){
