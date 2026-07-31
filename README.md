@@ -4,12 +4,6 @@ StudyNotion is a comprehensive Ed-Tech platform (Learning Management System) tha
 🚀 **New Feature:** Integrated an AI-powered StudyNotion Assistant using **Retrieval-Augmented Generation (RAG)** with **Google Gemini**, **Pinecone Vector Database**, and **LangChain**, enabling users to ask natural language questions about the platform, course purchasing, account management, and other features.
 
 ![StudyNotion Screenshot](https://github.com/ayushrajput545/StudyNotion-Ed-Tech-Platform/blob/main/Screenshot%202025-02-01%20211931.png)
-<p align="center">
-  <img src="https://github.com/ayushrajput545/StudyNotion-Online-Learning-System/blob/main/Screenshot%202026-07-31%20225153.png" width="48%" />
-
-  <img src="https://github.com/ayushrajput545/StudyNotion-Online-Learning-System/blob/main/Screenshot%202026-07-31%20224432.png" width="48%" />
-</p>
-
 
 ## Workflow
 1. **User Signup:** Users can sign up as either a student or an instructor.
@@ -99,6 +93,12 @@ The chatbot follows a Retrieval-Augmented Generation pipeline:
 - Retrieval-Augmented Generation (RAG)
 - Semantic Search
 - Prompt Engineering
+
+<p align="center">
+  <img src="https://github.com/ayushrajput545/StudyNotion-Online-Learning-System/blob/main/Screenshot%202026-07-31%20225153.png" height="300" />
+
+  <img src="https://github.com/ayushrajput545/StudyNotion-Online-Learning-System/blob/main/Screenshot%202026-07-31%20224432.png" height="300" />
+</p>
 
 ## Chatbot Architecture
 
