@@ -30,7 +30,7 @@ export default function StudyNotionChatbot() {
         setMessages([]);
         setError(null);
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/profile/clear-session');
+            const res = await axios.post('https://studynotion-ed-tech-platform-2-ic89.onrender.com/api/v1/profile/clear-session');
             setSessionId(res.data.sessionId);
         } catch {
             setSessionId(null); // will create new one on next message
@@ -49,7 +49,7 @@ export default function StudyNotionChatbot() {
         setMessages(prev => [...prev, tempMsg]);
 
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/profile/send-message', {
+            const res = await axios.post('https://studynotion-ed-tech-platform-2-ic89.onrender.com/api/v1/profile/send-message', {
                 message: userMessage,
                 sessionId,
             });
