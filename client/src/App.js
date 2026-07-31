@@ -27,6 +27,7 @@ import AddCourse from './components/core/Dashboard/Addcourse/AddCourse';
 import MyCourses from './components/core/Dashboard/MyCourses';
 import EditCourse from './components/core/Dashboard/EditCourse/EditCourse';
 import { useEffect } from 'react';
+import StudyNotionChatbot from './components/common/Chatbot';
  
 
 function App() {
@@ -93,6 +94,8 @@ function App() {
           
           
         </Routes>
+
+        <StudyNotionChatbot/>
       
     </div>
   );
