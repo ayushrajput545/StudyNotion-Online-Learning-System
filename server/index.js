@@ -45,6 +45,18 @@ app.use('/api/v1/course', courseRoutes);
 app.use('/api/v1/payment', paymentRoutes)
 app.use("/api/v1/reach", contactUsRoute);
 
+//health check
+app.get("/health", (req, res) => {
+  const timestamp = new Date().toISOString();
+
+  console.log(`[${timestamp}] Health Route hit from IP: ${req.ip}`);
+
+  res.status(200).json({
+    success: true,
+    timestamp,
+  });
+});
+
 //default route
 app.use('/' , (req,res)=>{
     return res.json({
@@ -65,12 +77,6 @@ app.get('/test-redis' ,async (req,res)=>{
   }
 })
 
-app.get('/health', (_res,res)=>{
-  console.log("Health Route hitting...")
-  res.status(200).json({
-    success:true
-  })
-})
 
 //activate the server
  app.listen(PORT , ()=>{
