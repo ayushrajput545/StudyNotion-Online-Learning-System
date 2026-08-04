@@ -65,6 +65,13 @@ app.get('/test-redis' ,async (req,res)=>{
   }
 })
 
+app.get('/health', (_res,res)=>{
+  console.log("Health Route hitting...")
+  res.status(200).json({
+    success:true
+  })
+})
+
 //activate the server
  app.listen(PORT , ()=>{
     console.log(`Server is running at ${PORT} port`)
